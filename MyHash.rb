@@ -2,24 +2,31 @@
 
 class MyHash
 	
-	def initialize(key, value = nil)
+	def initialize(default = nil)
 		@key_array = []
 		@value_array = []
-		@key_array.push(key)
-		@value_array.push(value)
+		@default = default
 	end
 
-	def add(key, value = nil)
+	def add(key, value = @default)
 		if @key_array.include?(key)
 			puts "There is key in hash"
 		else
 			@key_array.push(key)
-			@value_array.push(value)
+			value.nil?? @value_array.push(@default) : @value_array.push(value)
 		end
 	end
 
-	def []=(key, value = nil)
+	def []=(key, value = @default)
 		self.add(key, value)
+	end
+
+	def add_many(*args)
+		args.each_index { |i| self.add(args[i-1], args[i]) if i % 2 != 0 }
+		if args.size % 2 != 0
+			@value_array.push(@default) 
+			@key_array.push(args.last)
+		end
 	end
 
 	def [](key)
@@ -50,11 +57,19 @@ class MyHash
 	end
 
 	def to_s
-		(0...@key_array.length).each { |i| puts "#{@key_array[i]} => #{@value_array[i]}"}
+		print "{"
+		@key_array.each_index { |i| print "#{@key_array[i]} => #{@value_array[i]}, "}
+		print "}"
+		puts
 	end
 
 	def length
 		@key_array.length	
+	end
+
+	def clear
+		@value_array.clear
+		@key_array.clear
 	end
 
 end
