@@ -1,5 +1,7 @@
 #!/usr/bin/ruby
 
+require 'benchmark/ips'
+
 class MyHash
 	
 	def initialize(default = nil)
@@ -8,17 +10,13 @@ class MyHash
 		@default = default
 	end
 
-	def add(key, value = @default)
+	def []=(key, value = @default)
 		if @key_array.include?(key)
 			puts "There is key in hash"
 		else
-			@key_array.push(key)
-			value.nil?? @value_array.push(@default) : @value_array.push(value)
+			@key_array<<key
+			@value_array<<value
 		end
-	end
-
-	def []=(key, value = @default)
-		self.add(key, value)
 	end
 
 	def add_many(*args)
@@ -29,12 +27,16 @@ class MyHash
 		end
 	end
 
-	def [](key)
-		if @key_array.include?(key)
-			i = @key_array.index(key)
-			@value_array[i]
+	def [](*args)
+		if args.size == 1
+			if @key_array.include?(key)
+				i = @key_array.index(key)
+				@value_array[i]
+			else
+				puts "There is no key in hash"
+			end
 		else
-			puts "There is no key in hash"
+			add_many(args)
 		end
 	end
 
@@ -68,8 +70,38 @@ class MyHash
 	end
 
 	def clear
-		@value_array.clear
+	  @value_array.clear
 		@key_array.clear
 	end
 
+	def empty?
+		@key_array.empty?? true : false 
+	end
+
 end
+
+keys_and_values = { a: 1, b: 2, c: 3 }
+
+def my_hash(args)
+  hash = MyHash.new
+  args.each do |key, value|
+    hash[key] = value
+  end
+end
+
+def ruby_hash(args)
+  hash = Hash.new
+  args.each do |key, value|
+    hash[key] = value
+  end
+end
+
+Benchmark.ips do |x|
+  x.report("MyHash") { my_hash(keys_and_values) }
+  x.report("RubyHash") { ruby_hash(keys_and_values) }
+  x.compare!
+end
+
+var = MyHash.new
+puts
+puts var.empty?
