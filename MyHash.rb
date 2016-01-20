@@ -9,9 +9,10 @@ class MyHash
     @default = default
   end
 
-  def []=(key, value = @default)
-    if @key_array.include?(key)
-      puts 'There is key in MyHash'
+  def []=(key, value)
+  	if @key_array.include?(key)
+      i = @key_array.index(key)	
+      @value_array[i] = value
     else
       @key_array << key
       @value_array << value
@@ -19,20 +20,19 @@ class MyHash
   end
 
   def add_many(*args)
-    args.each_index { |i| self.add(args[i - 1], args[i]) unless i.even }
-    if args.size % 2 != 0
-      @value_array << @default
-      @key_array << args.last
+    args.each_index { |i| self[args[i - 1]] = args[i] if i.odd? }
+    if args.size.odd?
+      self[args.last] = @default
     end
   end
 
   def [](*args)
     if args.size == 1
-      if @key_array.include?(key)
-        i = @key_array.index(key)
-        @value_array[i]
+      i = @key_array.index(args[0])
+      if i.nil?  
+        @default
       else
-        puts 'There is no key in MyHash'
+      	@value_array[i]
       end
     else
       add_many(args)
@@ -45,7 +45,7 @@ class MyHash
       @key_array.delete_at(i)
       @value_array.delete_at(i)
     else
-      puts 'There is no key in MyHash'
+      'There is no key in MyHash'
     end
   end
 
@@ -58,10 +58,9 @@ class MyHash
   end
 
   def to_s
-    print '{'
-    @key_array.each_index { |i| print "#{@key_array[i]} => #{@value_array[i]}, " }
-    print '}'
-    puts
+    str = '{'
+    @key_array.each_index { |i| str << "#{@key_array[i]} => #{@value_array[i]}, " }
+    str << '}'
   end
 
   def length
@@ -76,18 +75,57 @@ class MyHash
   def empty?
     @key_array.empty? ? true : false
   end
+
+  def eql?(otherMyHash)
+  	otherMyHashKeys = otherMyHash.keys
+  	otherMyHashValues = otherMyHash.values
+
+    if @key_array.eql?(otherMyHashKeys) && @value_array.eql?(otherMyHashValues)
+      return true
+    elsif @key_array.size != otherMyHashKeys.size || @value_array.size != otherMyHashValues.size
+      return false
+    end
+    
+    @key_array.each do |elem| 
+      if otherMyHashKeys.include?(elem)
+        i = otherMyHashKeys.index(elem)
+        j = @key_array.index(elem)
+        return false if @value_array[j] != otherMyHashValues[i]
+      else
+      	return false
+      end
+    end
+
+    true
+  end
 end
 
-keys_and_values = { a: 1, b: 2, c: 3 }
+keys_and_values = {}
+array = []
+h = MyHash.new
+1000.times { |i| 
+  a = rand(100)
+  keys_and_values[i] = a
+  array[i] = a
+  h[i] = a
+} 
 
-def my_hash(args)
+def my_hash_set(args)
   hash = MyHash.new
   args.each do |key, value|
     hash[key] = value
   end
 end
 
-def ruby_hash(args)
+def my_hash_get(args, key)
+  args[key]
+end
+
+def ruby_array_get(args, key)
+  args
+end
+
+def ruby_hash_set(args)
   hash = Hash.new
   args.each do |key, value|
     hash[key] = value
@@ -95,11 +133,14 @@ def ruby_hash(args)
 end
 
 Benchmark.ips do |x|
-  x.report('MyHash') { my_hash(keys_and_values) }
-  x.report('RubyHash') { ruby_hash(keys_and_values) }
+  x.report('MyHash_set') { my_hash_set(keys_and_values) }
+  x.report('RubyHash_set') { ruby_hash_set(keys_and_values) }
   x.compare!
 end
 
-var = MyHash.new
-puts
-puts var.empty?
+Benchmark.ips do |x|
+  a = rand(100)
+  x.report('MyHash_get') { my_hash_get(h, a) }
+  x.report('RubyHash_get') { ruby_array_get(array, a) }
+  x.compare!
+end
