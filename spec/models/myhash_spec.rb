@@ -5,32 +5,32 @@ describe MyHash do
     let(:hash) { MyHash.new(1488) }
     before do
       10.times { |i| hash[i] = i }
-      hash['key'] = 'value' 
+      hash['key'] = 'value'
     end
 
     it "return 'value'" do
       expect(hash['key']).to eq 'value'
     end
 
-	it "return 'default' value" do
+    it "return 'default' value" do
       expect(hash[123]).to eq 1488
-	end   
+    end
 
-	context "when add many pairs key-value" do
-	  before do 
-	    hash.clear 
-	    hash.add_many(:a, 1, :b, 2, :c, 3, :a, 14, :a, 15, :b)
-	  end
-	  it "return 'hash' with values" do
+    context "when add many pairs key-value" do
+      before do
+        hash.clear
+        hash.add_many(:a, 1, :b, 2, :c, 3, :a, 14, :a, 15, :b)
+      end
+      it "return 'hash' with values" do
         expect(hash.to_s).to eq "{a => 15, b => 1488, c => 3, }"
       end
-	end
+    end
   end
 
   describe "#length" do
     let(:hash) { MyHash.new }
     before do
-      100.times { |i| hash[i] = i } 
+      100.times { |i| hash[i] = i }
     end
 
     it "return length of 'hash'" do
@@ -51,7 +51,7 @@ describe MyHash do
     it "return 'true' if hashes are equal" do
       expect(hash.eql?(otherhash)).to eq true
     end
-    
+
     context "with change in our 'otherhash'" do
       before { otherhash[50] = 'value' }
 
@@ -64,7 +64,7 @@ describe MyHash do
   describe "#delete" do
     let(:hash) { MyHash.new }
     before do
-      10.times { |i| hash[i] = i}
+      10.times { |i| hash[i] = i }
       hash.delete(5)
     end
 
@@ -76,7 +76,7 @@ describe MyHash do
   describe "#values and #keys" do
     let(:hash) { MyHash.new }
     before do
-      10.times { |i| hash[i] = i}
+      10.times { |i| hash[i] = i }
     end
 
     it "return array of values" do

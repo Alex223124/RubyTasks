@@ -10,8 +10,8 @@ class MyHash
   end
 
   def []=(key, value)
-  	if @key_array.include?(key)
-      i = @key_array.index(key)	
+    if @key_array.include?(key)
+      i = @key_array.index(key)
       @value_array[i] = value
     else
       @key_array << key
@@ -21,19 +21,13 @@ class MyHash
 
   def add_many(*args)
     args.each_index { |i| self[args[i - 1]] = args[i] if i.odd? }
-    if args.size.odd?
-      self[args.last] = @default
-    end
+    self[args.last] = @default if args.size.odd?
   end
 
   def [](*args)
     if args.size == 1
       i = @key_array.index(args[0])
-      if i.nil?  
-        @default
-      else
-      	@value_array[i]
-      end
+      i.nil? ? @default : @value_array[i]
     else
       add_many(args)
     end
@@ -77,22 +71,22 @@ class MyHash
   end
 
   def eql?(otherMyHash)
-  	otherMyHashKeys = otherMyHash.keys
-  	otherMyHashValues = otherMyHash.values
+    otherMyHashKeys = otherMyHash.keys
+    otherMyHashValues = otherMyHash.values
 
     if @key_array.eql?(otherMyHashKeys) && @value_array.eql?(otherMyHashValues)
       return true
     elsif @key_array.size != otherMyHashKeys.size || @value_array.size != otherMyHashValues.size
       return false
     end
-    
-    @key_array.each do |elem| 
+
+    @key_array.each do |elem|
       if otherMyHashKeys.include?(elem)
         i = otherMyHashKeys.index(elem)
         j = @key_array.index(elem)
         return false if @value_array[j] != otherMyHashValues[i]
       else
-      	return false
+        return false
       end
     end
 
@@ -103,12 +97,12 @@ end
 keys_and_values = {}
 array = []
 h = MyHash.new
-1000.times { |i| 
+1000.times { |i|
   a = rand(100)
   keys_and_values[i] = a
   array[i] = a
   h[i] = a
-} 
+}
 
 def my_hash_set(args)
   hash = MyHash.new
@@ -122,7 +116,7 @@ def my_hash_get(args, key)
 end
 
 def ruby_array_get(args, key)
-  args
+  args[key]
 end
 
 def ruby_hash_set(args)
