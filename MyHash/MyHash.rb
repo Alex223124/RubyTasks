@@ -1,7 +1,5 @@
 #!/usr/bin/ruby
 
-require 'benchmark/ips'
-
 class MyHash
   def initialize(default = nil)
     @key_array = []
@@ -24,13 +22,9 @@ class MyHash
     self[args.last] = @default if args.size.odd?
   end
 
-  def [](*args)
-    if args.size == 1
-      i = @key_array.index(args[0])
-      i.nil? ? @default : @value_array[i]
-    else
-      add_many(args)
-    end
+  def [](key)
+    i = @key_array.index(key)
+    i.nil? ? @default : @value_array[i]
   end
 
   def delete(key)
@@ -92,49 +86,4 @@ class MyHash
 
     true
   end
-end
-
-keys_and_values = {}
-array = []
-h = MyHash.new
-1000.times { |i|
-  a = rand(100)
-  keys_and_values[i] = a
-  array[i] = a
-  h[i] = a
-}
-
-def my_hash_set(args)
-  hash = MyHash.new
-  args.each do |key, value|
-    hash[key] = value
-  end
-end
-
-def my_hash_get(args, key)
-  args[key]
-end
-
-def ruby_array_get(args, key)
-  args[key]
-end
-
-def ruby_hash_set(args)
-  hash = Hash.new
-  args.each do |key, value|
-    hash[key] = value
-  end
-end
-
-Benchmark.ips do |x|
-  x.report('MyHash_set') { my_hash_set(keys_and_values) }
-  x.report('RubyHash_set') { ruby_hash_set(keys_and_values) }
-  x.compare!
-end
-
-Benchmark.ips do |x|
-  a = rand(100)
-  x.report('MyHash_get') { my_hash_get(h, a) }
-  x.report('RubyHash_get') { ruby_array_get(array, a) }
-  x.compare!
 end
