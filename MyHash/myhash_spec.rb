@@ -1,13 +1,14 @@
-require '/home/dima/RubyTasks/MyHash.rb'
+require_relative 'MyHash.rb'
 
 describe MyHash do
-  describe "#[key]" do
-    let(:hash) { MyHash.new(1488) }
-    before do
-      10.times { |i| hash[i] = i }
-      hash['key'] = 'value'
-    end
+  let(:hash) { MyHash.new(1488) }
+  before do
+    10.times { |i| hash[i] = i }
+  end
 
+  describe "#[key]" do
+    before { hash['key'] = 'value' }
+    
     it "return 'value'" do
       expect(hash['key']).to eq 'value'
     end
@@ -28,24 +29,15 @@ describe MyHash do
   end
 
   describe "#length" do
-    let(:hash) { MyHash.new }
-    before do
-      100.times { |i| hash[i] = i }
-    end
-
     it "return length of 'hash'" do
-      expect(hash.length).to eq 100
+      expect(hash.length).to eq 10
     end
   end
 
   describe "#eql?" do
-    let(:hash) { MyHash.new }
     let(:otherhash) { MyHash.new }
     before do
-      100.times do |i|
-        hash[i] = i
-        otherhash[99 - i] = 99 - i
-      end
+      10.times { |i| otherhash[9 - i] = 9 - i }
     end
 
     it "return 'true' if hashes are equal" do
@@ -53,7 +45,7 @@ describe MyHash do
     end
 
     context "with change in our 'otherhash'" do
-      before { otherhash[50] = 'value' }
+      before { otherhash[5] = 'value' }
 
       it "return 'false' if hashes are different" do
         expect(hash.eql?(otherhash)).to eq false
@@ -62,27 +54,20 @@ describe MyHash do
   end
 
   describe "#delete" do
-    let(:hash) { MyHash.new }
-    before do
-      10.times { |i| hash[i] = i }
-      hash.delete(5)
-    end
+    before { hash.delete(5) }
 
     it "delete pair key-value" do
       expect(hash.delete(5)).to eq 'There is no key in MyHash'
     end
   end
 
-  describe "#values and #keys" do
-    let(:hash) { MyHash.new }
-    before do
-      10.times { |i| hash[i] = i }
-    end
-
+  describe "#values" do
     it "return array of values" do
       expect(hash.values).to eq (0..9).to_a
     end
+  end
 
+  describe "#keys" do
     it "return array of keys" do
       expect(hash.keys).to eq (0..9).to_a
     end
