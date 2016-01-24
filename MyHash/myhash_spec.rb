@@ -1,4 +1,4 @@
-require_relative 'MyHash.rb'
+require_relative 'newMyHash.rb'
 
 describe MyHash do
   let(:hash) { MyHash.new(1488) }
@@ -20,10 +20,10 @@ describe MyHash do
     context "when add many pairs key-value" do
       before do
         hash.clear
-        hash.add_many(:a, 1, :b, 2, :c, 3, :a, 14, :a, 15, :b)
+        hash.add_many(:a, 1, :b, 2, :c, 3, :a, 14, :a, 15)
       end
       it "return 'hash' with values" do
-        expect(hash.to_s).to eq "{a => 15, b => 1488, c => 3, }"
+        expect(hash.to_s).to eq "{a => 15, b => 2, c => 3, }"
       end
     end
   end
@@ -72,4 +72,20 @@ describe MyHash do
       expect(hash.keys).to eq (0..9).to_a
     end
   end
+
+  describe "#clear" do
+    it "return clear 'hash'" do
+      expect(hash.clear).to eq []
+    end
+  end  
+
+  describe "#empty?" do
+    it "return 'false' if there is something in 'hash'" do
+      expect(hash.empty?).to eq false
+    end
+
+    it "return 'true' if 'hash' is empty" do
+      expect(hash.clear.empty?).to eq true
+    end
+  end 
 end
