@@ -1,9 +1,10 @@
-require_relative 'MyHash.rb'
+require "benchmark/ips"
+require_relative 'newMyHash.rb'
 
 keys_and_values = {}
 array = []
 h = MyHash.new
-100000.times do |i|
+100_000.times do |i|
   a = rand(100)
   keys_and_values[i] = a
   array[i] = a
@@ -41,6 +42,6 @@ end
 Benchmark.ips do |x|
   a = rand(100)
   x.report('MyHash_get') { my_hash_get(h, a) }
-  x.report('RubyHash_get') { ruby_array_get(array, a) }
+  x.report('RubyArray_get') { ruby_array_get(array, a) }
   x.compare!
 end
