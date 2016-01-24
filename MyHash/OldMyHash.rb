@@ -18,8 +18,8 @@ class MyHash
   end
 
   def add_many(*args)
+    return "please, enter an even number of arguments" if args.size.odd?
     args.each_index { |i| self[args[i - 1]] = args[i] if i.odd? }
-    self[args.last] = @default if args.size.odd?
   end
 
   def [](key)
