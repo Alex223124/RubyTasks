@@ -8,7 +8,7 @@ describe MyHash do
 
   describe "#[key]" do
     before { hash['key'] = 'value' }
-    
+
     it "return 'value'" do
       expect(hash['key']).to eq 'value'
     end
@@ -16,15 +16,20 @@ describe MyHash do
     it "return 'default' value" do
       expect(hash[123]).to eq 1488
     end
+  end
 
-    context "when add many pairs key-value" do
-      before do
-        hash.clear
-        hash.add_many(:a, 1, :b, 2, :c, 3, :a, 14, :a, 15)
-      end
-      it "return 'hash' with values" do
-        expect(hash.to_s).to eq "{a => 15, b => 2, c => 3, }"
-      end
+  describe "#add_many" do
+    let(:otherhash) { MyHash.new }
+    before do
+      hash.clear
+      hash.add_many(:a, 1, :b, 2, :c, 3, :a, 14, :a, 15)
+      otherhash[:a] = 15
+      otherhash[:b] = 2
+      otherhash[:c] = 3
+    end
+
+    it "return 'hash' with values" do
+      expect(hash.eql?(otherhash)).to eq true
     end
   end
 
@@ -77,7 +82,7 @@ describe MyHash do
     it "return clear 'hash'" do
       expect(hash.clear).to eq []
     end
-  end  
+  end
 
   describe "#empty?" do
     it "return 'false' if there is something in 'hash'" do
@@ -87,5 +92,5 @@ describe MyHash do
     it "return 'true' if 'hash' is empty" do
       expect(hash.clear.empty?).to eq true
     end
-  end 
+  end
 end
