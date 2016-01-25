@@ -18,7 +18,7 @@ describe MyHash do
     end
   end
 
-  describe "#add_many" do
+  describe "#add_many(key1, value1, key2, value2, ...)" do
     let(:otherhash) { MyHash.new }
     before do
       hash.clear
@@ -43,6 +43,10 @@ describe MyHash do
     let(:otherhash) { MyHash.new }
     before do
       10.times { |i| otherhash[9 - i] = 9 - i }
+    end
+
+    it "return 'false' if argument isn't instance of MyHash" do
+      expect(hash.eql?([])).to eq false
     end
 
     it "return 'true' if hashes are equal" do
