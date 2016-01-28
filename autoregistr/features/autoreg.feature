@@ -8,4 +8,4 @@ Feature: Automatic registration
 
     Given "100" attempts
     When hacker used them all
-    Then emails and passwords for "100" users should be in file.csv
+    Then emails and passwords saved in "file.csv"
