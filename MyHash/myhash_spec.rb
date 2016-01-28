@@ -1,4 +1,5 @@
-require_relative 'newMyHash.rb'
+require_relative 'MyHash.rb'
+include Version2
 
 describe MyHash do
   let(:hash) { MyHash.new(1488) }

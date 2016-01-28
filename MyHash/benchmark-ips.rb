@@ -1,5 +1,6 @@
 require "benchmark/ips"
-require_relative 'newMyHash.rb'
+require_relative 'MyHash.rb'
+include Version2
 
 keys_and_values = {}
 array = []
