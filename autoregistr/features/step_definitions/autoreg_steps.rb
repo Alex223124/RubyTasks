@@ -1,4 +1,4 @@
-require_relative 'registration.rb'
+require_relative '../lib/registration.rb'
 
 Given(/^"([^"]*)" attempts$/) do |arg1|
   @attempts = arg1.to_i
