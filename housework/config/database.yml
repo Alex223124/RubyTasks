@@ -1,0 +1,16 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 5
+  username: housework
+  password: house
+  host: localhost
+  port: 5432
+
+development:
+  <<: *default
+  database: housework_development
+
+test:
+  <<: *default
+  database: housework_test
