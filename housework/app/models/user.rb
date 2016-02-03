@@ -5,6 +5,9 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
   has_many :tasks
 
-  has_many :relationships, :foreign_key => "parent_id", :class_name => "Relationship"
-  has_many :childs, :through => :relationships
+  has_many :parent_relationships, :foreign_key => "parent_id", :class_name => "Relationship"
+  has_many :children, :through => :parent_relationships
+
+  has_many :child_relationships, :foreign_key => "child_id", :class_name => "Relationship"
+  has_many :parents, :through => :child_relationships
 end
