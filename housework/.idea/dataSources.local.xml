@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="dataSourceStorageLocal">
+    <data-source name="Rails housework: development" uuid="408af5da-4633-47d1-abca-ee1a2feb386f">
+      <secret-storage>memory</secret-storage>
+      <user-name>housework</user-name>
+    </data-source>
+    <data-source name="Rails housework: test" uuid="62468d79-b81a-4436-b9f4-de1620c76423">
+      <secret-storage>memory</secret-storage>
+      <user-name>housework</user-name>
+    </data-source>
+  </component>
+</project>
