@@ -11,4 +11,6 @@
 /log/*
 !/log/.keep
 /tmp
-/.idea/workspace.xml
+
+database.yml
+.idea
