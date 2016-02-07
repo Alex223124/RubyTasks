@@ -1,0 +1,19 @@
+= form_for @task do |f|
+  - if @task.errors.any?
+    h2 = "#{pluralize(@task.errors.count, "error")} prohibited this task from being saved:"
+    ul
+      - @tasks.errors.full_messages.each do |msg|
+      li = msg
+
+  .field
+    = f.label :title
+    = f.text_field :title
+  .field
+    = f.label :description
+    = f.text_area :description
+
+  = f.collection_select(:user_perform_id) do
+    = options_from_collection_for_select(@user.parents, :id, :name)
+    = options_from_collection_for_select(@user.children, :id, :name)
+
+  .actions = f.submit
