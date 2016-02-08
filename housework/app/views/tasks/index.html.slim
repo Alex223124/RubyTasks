@@ -1,25 +1,27 @@
+p#notice = notice
 h1 Listing tasks
 
-table
-  thead
-    tr
-      th Title
-      th Description
-      th User who will perform
-      th
-      th
-      th
-
-  tbody
-    - @tasks.each do |task|
+- if @task.nil?
+  p There are no tasks
+- else
+  table
+    thead
       tr
-        td = task.title
-        td = task.description
-        td = User.find(task.user_perform_id)
-        td = link_to 'Show', task
-        td = link_to 'Edit', edit_user_task_path(task)
-        td = link_to 'Destroy', task, data: {:confirm => 'Are you sure?'}, :method => :delete
+        th Title
+        th Description
+        th User who will perform
+        th
+        th
+        th
+    tbody
+      - @tasks.each do |task|
+        tr
+          td = task.title
+          td = task.description
+          td = User.find(task.user_perform_id)
+          td = link_to 'Show', task
+          td = link_to 'Edit', edit_user_task_path(task)
+          td = link_to 'Destroy', task, data: {:confirm => 'Are you sure?'}, :method => :delete
 
 br
-
-= link_to 'New Task', new_user_task_path
+= link_to 'New Task', new_user_task_path(current_user)
