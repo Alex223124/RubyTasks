@@ -12,6 +12,8 @@ class User < ActiveRecord::Base
   has_many :child_relationships, :foreign_key => "child_id", :class_name => "Relationship"
   has_many :parents, :through => :child_relationships
 
+  validates :name, :presence => true
+
   def self.from_omniauth(auth)
     where(provider: auth.provider, uid: auth.uid).first_or_create do |user|
       user.email = auth.info.email

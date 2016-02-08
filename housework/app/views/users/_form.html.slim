@@ -1,15 +1,15 @@
-= form_for @task do |f|
-  - if @task.errors.any?
+= form_for current_user do |f|
+  - if current_user.errors.any?
     #error_explanation
-      h2 = "#{pluralize(@task.errors.count, "error")} prohibited this task from being saved:"
+      h2 = "#{pluralize(current_user.errors.count, "error")} prohibited this task from being saved:"
       ul
-        - @task.errors.full_messages.each do |message|
+        - current_user.errors.full_messages.each do |message|
           li = message
 
   .field
-    = f.label :title
-    = f.text_field :title
-  .field
-    = f.label :description
-    = f.text_area :description
+    = f.label :name
+    = f.text_field :name
+  .birh_date
+    = f.label :birthday
+    = f.date_select(:birthday, :start_year => 1950, :end_year => 2012)
   .actions = f.submit

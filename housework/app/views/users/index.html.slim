@@ -1,8 +1,14 @@
+p#notice = notice
+
 h1 All Users
 
 - @users.each do |user|
   p = user.name
 
-= link_to 'Change profile', edit_user_registration_path
+= link_to 'Change email or password', edit_user_registration_path
+br
+= link_to 'Change profile', edit_user_path(current_user)
+br
+= link_to 'Add parents or children'
 br
 = link_to 'Sign out', destroy_user_session_path, :method => :delete
