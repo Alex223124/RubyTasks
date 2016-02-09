@@ -2,12 +2,11 @@ class TasksController < ApplicationController
   before_action :set_task, only: [:show, :edit, :update, :destroy]
 
   def index
-    @tasks = Task.find_by_user_id(params[:user_id])
+    @tasks = Task.where(user_id: current_user.id)
   end
 
   def new
-    @task = Task.new()
-    @task.user_id = params[:user_id]
+    @task = Task.new
   end
 
   def show
@@ -18,6 +17,7 @@ class TasksController < ApplicationController
 
   def create
     @task = Task.new(task_params)
+    @task.user = current_user
     if @task.save
       redirect_to action: 'index', notice: 'Task was successfully created.'
     else

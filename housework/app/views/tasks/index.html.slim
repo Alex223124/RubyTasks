@@ -1,7 +1,7 @@
 p#notice = notice
 h1 Listing tasks
 
-- if @task.nil?
+- if @tasks.empty?
   p There are no tasks
 - else
   table
@@ -18,10 +18,9 @@ h1 Listing tasks
         tr
           td = task.title
           td = task.description
-          td = User.find(task.user_perform_id)
           td = link_to 'Show', task
-          td = link_to 'Edit', edit_user_task_path(task)
+          td = link_to 'Edit', edit_task_path(task)
           td = link_to 'Destroy', task, data: {:confirm => 'Are you sure?'}, :method => :delete
 
 br
-= link_to 'New Task', new_user_task_path(current_user)
+= link_to 'New Task', new_task_path
