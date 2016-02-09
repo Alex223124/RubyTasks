@@ -1,0 +1,16 @@
+- model_class = User
+.page-header
+  h1=t '.title', :default => model_class.model_name.human.titleize
+
+p
+  strong= model_class.human_attribute_name(:name) + ':'
+  br
+  = @user.name
+p
+  strong= model_class.human_attribute_name(:birthday) + ':'
+  br
+  = @user.birthday
+
+= link_to t('.back', :default => t("helpers.links.back")), users_path, :class => 'btn btn-default'
+'
+= link_to t('.edit', :default => t("helpers.links.edit")), edit_user_path(@user), :class => 'btn btn-default'

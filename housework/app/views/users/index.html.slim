@@ -1,19 +1,11 @@
 p#notice = notice
 
-h2 Children
-- current_user.children.each do |user|
-  p = user.name
+- unless current_user.children.empty?
+  h3 Children
+  - current_user.children.each do |user|
+    p = user.name
 
-h2 Parents
-- current_user.parents.each do |user|
-  p = user.name
-
-= link_to 'Change email or password', edit_user_registration_path
-br
-= link_to 'Change profile', edit_user_path(current_user)
-br
-= link_to 'Add parents or children'
-br
-= link_to 'Tasks', user_path(current_user)
-br
-= link_to 'Sign out', destroy_user_session_path, :method => :delete
+- unless current_user.parents.empty?
+  h3 Parents
+  - current_user.parents.each do |user|
+    p = user.name
