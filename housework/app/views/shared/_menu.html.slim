@@ -1,0 +1,9 @@
+.col-lg-3
+  .well.sidebar-nav
+    h3 Menu
+    ul.nav.nav-list
+      /li.nav-header Sidebar
+      li= link_to 'Change email or password', edit_user_registration_path
+      li= link_to 'Change profile', edit_user_path(current_user)
+      li= link_to 'Tasks', tasks_path
+      li= link_to 'Add parents or children'
