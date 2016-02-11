@@ -32,7 +32,7 @@ html lang="en"
               li= link_to "Link 1", "/path1"
               li= link_to "Link 2", "/path2"
               - if user_signed_in?
-                li= link_to 'Sign out', destroy_user_session_path, method: 'delete'
+                li= link_to t(:sign_out), destroy_user_session_path, method: 'delete'
 
     .container
       .row

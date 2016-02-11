@@ -2,14 +2,14 @@ p#notice = notice
 h1 Listing tasks
 
 - if @tasks.empty?
-  p There are no tasks
+  p = t(:no_tasks)
 - else
 
   table.col-lg-12.table-condensed
     thead
       tr
-        th Title
-        th User who will perform
+        th = t(:title)
+        th = t(:user_perform)
         th
         th
         th
@@ -18,8 +18,8 @@ h1 Listing tasks
         tr
           td = task.title
           td = task.user_perform_id
-          td = link_to 'Show', task_path(task)
-          td = link_to 'Edit', edit_task_path(task)
-          td = link_to 'Destroy', task, data: {:confirm => 'Are you sure?'}, :method => :delete
+          td = link_to t(:show), task_path(task)
+          td = link_to t(:edit), edit_task_path(task)
+          td = link_to t(:destroy), task, data: {:confirm => 'Are you sure?'}, :method => :delete
 
-= link_to 'New Task', new_task_path
+= link_to t(:new_task), new_task_path

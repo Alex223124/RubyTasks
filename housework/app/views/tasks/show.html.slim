@@ -3,11 +3,11 @@
   h1=t '.title', :default => model_class.model_name.human.titleize
 
 p
-  strong= model_class.human_attribute_name(:title) + ':'
+  strong= model_class.human_attribute_name(t(:title)) + ':'
   br
   = @task.title
 p
-  strong= model_class.human_attribute_name(:description) + ':'
+  strong= model_class.human_attribute_name(t(:description) + ':'
   br
   = @task.description
 
