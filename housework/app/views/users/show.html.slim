@@ -3,11 +3,11 @@
   h1=t '.title', :default => model_class.model_name.human.titleize
 = image_tag current_user.avatar.url(:medium)
 p
-  strong= model_class.human_attribute_name(:name) + ':'
+  strong= model_class.human_attribute_name(t(:name)) + ':'
   br
   = @user.name
 p
-  strong= model_class.human_attribute_name(:birthday) + ':'
+  strong= model_class.human_attribute_name(t(:birthday)) + ':'
   br
   = @user.birthday
 

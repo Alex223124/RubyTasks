@@ -1,10 +1,13 @@
 Rails.application.routes.draw do
   get 'profile', to: 'users#show'
+  #get '/:locale' => 'users#index'
 
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
 
-  resources :tasks, :users
+  scope '(:locale)', locale: /en|ru/  do
 
+    resources :tasks, :users
+  end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
