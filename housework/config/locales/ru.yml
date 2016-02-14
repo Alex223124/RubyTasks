@@ -19,6 +19,8 @@ ru:
   russian: "Русский"
   english: "Английский"
   language: "Язык"
+  profile: "Профиль"
+  comments: "Комментарии"
 
   date:
     abbr_day_names:

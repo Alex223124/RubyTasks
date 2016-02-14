@@ -1,16 +1,31 @@
 - model_class = User
+= link_to t('.back', :default => t("helpers.links.back")), users_path, :class => 'btn btn-default'
 .page-header
-  h1=t '.title', :default => model_class.model_name.human.titleize
-= image_tag current_user.avatar.url(:medium)
+  h1 = t(:profile)
+= image_tag @user.avatar.url(:medium) if @user.avatar.present?
 p
-  strong= model_class.human_attribute_name(t(:name)) + ':'
+  strong= t(:name) + ':'
   br
   = @user.name
 p
-  strong= model_class.human_attribute_name(t(:birthday)) + ':'
+  strong= t(:birthday) + ':'
   br
   = @user.birthday
 
-= link_to t('.back', :default => t("helpers.links.back")), users_path, :class => 'btn btn-default'
-'
-= link_to t('.edit', :default => t("helpers.links.edit")), edit_user_path(@user), :class => 'btn btn-default'
+h3 = t(:comments)
+
+= simple_form_for @user, url: {action: "create_comment"}, method: "post" do |f|
+  = f.simple_fields_for :comment do |ff|
+    = ff.input   :text
+    = ff.button :submit, :class => 'btn-primary'
+
+- @user.comments.each do |comment|
+  strong = @names[comment.author_id]
+  br
+  p = comment.text
+  .col-md-offset-1
+    - unless comment.comments.empty?
+      - comment.comments.each do |comt|
+        strong = @names[comt.author_id]
+        br
+        p = comt.text

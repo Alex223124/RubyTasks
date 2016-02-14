@@ -1,18 +1,19 @@
 Rails.application.routes.draw do
-  get 'profile', to: 'users#show'
-  #get '/:locale' => 'users#index'
-
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
 
   scope '(:locale)', locale: /en|ru/  do
-
-    resources :tasks, :users
+    resources :tasks
+    resources :users do
+      member do
+        post 'create_comment'
+      end
+    end
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".
 
   # You can have the root of your site routed with "root"
-  root 'users#index'
+  root 'tasks#index'
 
   # Example of regular route:
   #   get 'products/:id' => 'catalog#view'
