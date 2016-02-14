@@ -1,7 +1,9 @@
 class UsersController < ApplicationController
-  before_action :set_user, only: [:show, :edit]
+  before_action :set_user_edit, only: :edit
+  before_action :set_user_show, only: :show
 
   def index
+    @users = User.all
   end
 
   def edit
@@ -28,9 +30,30 @@ class UsersController < ApplicationController
     end
   end
 
+  def create_comment
+    @comment = Comment.new()
+    @comment.author_id = current_user.id
+    @comment.commentable_id = params[:id]
+    @comment.commentable_type = User
+    @comment.text = params[:user][:comment][:text]
+
+    if @comment.save
+      redirect_to action: 'show'
+    else
+      redirect_to action: 'show', notice: "Comment don't create."
+    end
+  end
+
   private
-    def set_user
+    def set_user_edit
       @user = current_user
+    end
+
+    def set_user_show
+      @user = User.find(params[:id])
+      @names = {}
+      User.all.each { |user| @names[user.id] = user.name }
+      @comment = @user.comments.new
     end
 
     def user_params

@@ -12,7 +12,10 @@ class User < ActiveRecord::Base
   has_many :child_relationships, :foreign_key => "child_id", :class_name => "Relationship"
   has_many :parents, :through => :child_relationships
 
-  validates :name, :presence => true
+  has_many :comments, as: :commentable
+  accepts_nested_attributes_for :comments,
+                                :allow_destroy => true,
+                                :reject_if     => :all_blank
 
   has_attached_file :avatar, styles: { medium: "300x300>", thumb: "100x100>" }, default_url: "/images/:style/missing.png"
   validates_attachment_content_type :avatar, content_type: /\Aimage\/.*\Z/

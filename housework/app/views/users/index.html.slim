@@ -1,11 +1,18 @@
-p#notice :notice
+h1 Users
 
-- unless current_user.children.empty?
-  h3 Children
-  - current_user.children.each do |user|
-    p = user.name
+- if @users.empty?
+  p = t(:no_users)
+- else
 
-- unless current_user.parents.empty?
-  h3 Parents
-  - current_user.parents.each do |user|
-    p = user.name
+  table.col-lg-12.table-condensed
+    thead
+      tr
+        th = t(:name)
+        th
+        th
+    tbody
+      - @users.each do |user|
+        tr
+          td = user.name
+          td = link_to t(:show), user_path(user)
+          td = link_to t(:add)
