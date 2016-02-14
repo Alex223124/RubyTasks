@@ -53,7 +53,6 @@ class UsersController < ApplicationController
       @user = User.find(params[:id])
       @names = {}
       User.all.each { |user| @names[user.id] = user.name }
-      @comment = @user.comments.new
     end
 
     def user_params

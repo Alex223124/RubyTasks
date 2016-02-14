@@ -23,4 +23,9 @@ h3 = t(:comments)
   strong = @names[comment.author_id]
   br
   p = comment.text
-
+  .col-lg-2
+    - unless comment.comments.empty?
+      - comment.comments.each do |comt|
+        strong = @names[comt.author_id]
+        br
+        p = comt.text
