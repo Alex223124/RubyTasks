@@ -21,6 +21,9 @@ ru:
   language: "Язык"
   profile: "Профиль"
   comments: "Комментарии"
+  add_comment: "Добавить комментарий"
+  new_category: "Новая категория"
+  choose_category: "Выбрать категорию"
 
   date:
     abbr_day_names:

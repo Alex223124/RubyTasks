@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
 
   scope '(:locale)', locale: /en|ru/  do
+    resources :categories
     resources :tasks
     resources :users do
       member do
