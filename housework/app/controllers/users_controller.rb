@@ -40,7 +40,7 @@ class UsersController < ApplicationController
     if @comment.save
       redirect_to action: 'show'
     else
-      redirect_to action: 'show', notice: "Comment don't create."
+      redirect_to user_path, notice: "Comment don't create."
     end
   end
 

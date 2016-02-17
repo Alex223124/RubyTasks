@@ -23,4 +23,5 @@ en:
   change_email: "Change email or password"
   add_users: "Add parents or children"
   user_perform: "User who will perform"
-
+  add_comment: "Add comment"
+  choose_category: "Choose category"
