@@ -14,22 +14,6 @@ p
 
 h3 = t(:comments)
 
-= simple_form_for @user, url: {action: "create_comment"}, method: "post" do |f|
-  = f.simple_fields_for :comment do |ff|
-    = ff.input :text
-    = ff.button :submit, t(:add_comment), :class => 'btn-primary'
+= render "comments/form"
 
-- @user.comments.each do |comment|
-  strong = @names[comment.author_id]
-  '|
-  = link_to 'Answer'
-  br
-  p = comment.text
-  .col-md-offset-1
-    - unless comment.comments.empty?
-      - comment.comments.each do |comt|
-        strong = @names[comt.author_id]
-        '|
-        = link_to 'Answer'
-        br
-        p = comt.text
+= nested_comments @user.comments

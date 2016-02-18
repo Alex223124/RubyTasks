@@ -5,9 +5,7 @@ Rails.application.routes.draw do
     resources :categories
     resources :tasks
     resources :users do
-      member do
-        post 'create_comment'
-      end
+      resources :comments
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.
