@@ -1,4 +1,6 @@
 class UsersController < ApplicationController
+  include Hater::Commentable
+
   before_action :set_user_edit, only: :edit
   before_action :set_user_show, only: :show
 
@@ -27,20 +29,6 @@ class UsersController < ApplicationController
       redirect_to action: 'index', notice: 'User was successfully updated.'
     else
       render :edit
-    end
-  end
-
-  def create_comment
-    @comment = Comment.new()
-    @comment.author_id = current_user.id
-    @comment.commentable_id = params[:id]
-    @comment.commentable_type = User
-    @comment.text = params[:user][:comment][:text]
-
-    if @comment.save
-      redirect_to action: 'show'
-    else
-      redirect_to user_path, notice: "Comment don't create."
     end
   end
 
