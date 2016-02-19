@@ -1,0 +1,7 @@
+.col-lg-12
+  - if @users.empty?
+    p= "Did not match any information"
+  - else
+      - @users.each do |user|
+        h3
+          = link_to user.name, controller: "users", action: "show", id: user._id
