@@ -29,9 +29,11 @@ html lang="en"
           a.navbar-brand href=root_path Housework
           .navbar-collapse.collapse.navbar-responsive-collapse
             ul.nav.navbar-nav
-              li= link_to "Link 1", "/path1"
+              /li= link_to "Link 1", "/path1"
               - if user_signed_in?
                 li= link_to t(:sign_out), destroy_user_session_path, method: 'delete'
+            .pull-right.navbar-search.navbar-form
+               = render 'search/form'
 
     .container
       .row
@@ -42,4 +44,4 @@ html lang="en"
           = render 'shared/menu'
 
       footer
-        p &copy; Housework by DimaAlex 2016
+        p.nav-collapse.text-center &copy; Housework by DimaAlex 2016

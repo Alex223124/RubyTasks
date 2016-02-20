@@ -26,10 +26,23 @@ class UsersController < ApplicationController
       render :action => 'edit' and return
     end
     if current_user.update(user_params)
-      redirect_to action: 'index', notice: 'User was successfully updated.'
+      redirect_to users_path, notice: 'User was successfully updated.'
     else
       render :edit
     end
+  end
+
+  def add
+    member = User.find(params[:id])
+    if member.has_role? :parent
+      current_user.parents. << member
+    else
+      current_user.children << member
+    end
+    redirect_to family_user_path, notice: member.name + ' in your family now.'
+  end
+
+  def family
   end
 
   private

@@ -1,0 +1,13 @@
+.col-lg-12
+  - if @users.empty?
+    p= "Did not match any information"
+  - else
+      - @users.each do |user|
+        h3
+          = link_to user.name, controller: "users", action: "show", id: user._id
+          - unless current_user.parents.exists?(user)
+            = link_to t(:add), add_user_path(user), method: "post"
+          - unless current_user.children.exists?(user)
+            = link_to t(:add), add_user_path(user), method: "post"
+          - unless current_user == user
+            = link_to t(:add), add_user_path(user), method: "post"
