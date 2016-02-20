@@ -41,6 +41,10 @@ gem 'ancestry' #for comments as tree
 gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
 
+#for roles
+gem 'cancancan'
+gem 'rolify'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

@@ -1,13 +1,17 @@
 Rails.application.routes.draw do
   devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
 
-  get 'search', to: 'search#search'
-
   scope '(:locale)', locale: /en|ru/  do
+    get 'search', to: 'search#search'
+
     resources :categories
     resources :tasks
     resources :users do
       resources :comments
+      member do
+        post 'add', to: 'users#add'
+        get 'family', to: 'users#family'
+      end
     end
   end
   # The priority is based upon order of creation: first created -> highest priority.

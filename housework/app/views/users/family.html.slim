@@ -1,0 +1,31 @@
+h1= t(:family)
+
+h3= t(:parents)
+- if current_user.parents.empty?
+  p= t(:no_parents)
+- else
+  table.col-lg-12.table-condensed
+    thead
+      tr
+        th = t(:name)
+        th
+    tbody
+      - current_user.parents.each do |parent|
+        tr
+          td = parent.name
+          td = link_to t(:show), user_path(parent)
+
+h3= t(:children)
+- if current_user.children.empty?
+  p= t(:no_children)
+- else
+  table.col-lg-12.table-condensed
+    thead
+      tr
+        th = t(:name)
+        th
+    tbody
+      - current_user.children.each do |child|
+        tr
+          td = child.name
+          td = link_to t(:show), user_path(child)

@@ -1,6 +1,7 @@
 require 'elasticsearch/model'
 
 class User < ActiveRecord::Base
+  rolify
   include Elasticsearch::Model
 
   devise :database_authenticatable, :registerable,

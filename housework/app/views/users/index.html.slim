@@ -1,4 +1,4 @@
-h1 Users
+h1= t(:users)
 
 - if @users.empty?
   p = t(:no_users)
@@ -15,4 +15,10 @@ h1 Users
         tr
           td = user.name
           td = link_to t(:show), user_path(user)
-          td = link_to t(:add)
+          - unless current_user.parents.exists?(user)
+            td = link_to t(:add), add_user_path(user), method: "post"
+          - unless current_user.children.exists?(user)
+            td = link_to t(:add), add_user_path(user), method: "post"
+          - unless current_user == user
+            td = link_to t(:add), add_user_path(user), method: "post"
+
