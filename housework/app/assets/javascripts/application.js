@@ -15,3 +15,8 @@
 //= require twitter/bootstrap
 //= require turbolinks
 //= require_tree .
+//= require moment
+//= require moment/ru
+//= require bootstrap-datetimepicker
+//= require pickers
+//= require countdown

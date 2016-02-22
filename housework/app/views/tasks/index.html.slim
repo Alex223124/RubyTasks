@@ -3,12 +3,12 @@ h1 = t(:tasks)
 - if @tasks.empty?
   p = t(:no_tasks)
 - else
-
   table.col-lg-12.table-condensed
     thead
       tr
         th = t(:title)
         th = t(:user_perform)
+        th = t(:status)
         th
         th
         th
@@ -17,10 +17,10 @@ h1 = t(:tasks)
         tr
           td = task.title
           td = @names[task.user_perform_id]
+          td = task.status
           td = link_to t(:show), task_path(task)
           td = link_to t(:edit), edit_task_path(task)
-          td = link_to t(:destroy), task, data: {:confirm => 'Are you sure?'}, :method => :delete
+          - if task.user.eql?(current_user)
+            td = link_to t(:destroy), task, data: {:confirm => 'Are you sure?'}, :method => :delete
 
 = link_to t(:new_task), new_task_path
-'|
-= link_to t(:new_category), new_category_path

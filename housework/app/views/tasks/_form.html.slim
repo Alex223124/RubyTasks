@@ -2,9 +2,14 @@
   = f.input :title
   = f.input :description
 
-  = f.select(:user_perform_id) do
-    = options_from_collection_for_select(current_user.parents, :id, :name)
-    = options_from_collection_for_select(current_user.children, :id, :name)
+  - if @task.user_perform_id.nil?
+    = f.select(:user_perform_id) do
+      = options_from_collection_for_select(current_user.parents, :id, :name)
+      = options_from_collection_for_select(current_user.children, :id, :name)
+
+  - if @task.sleeping? && current_user.id.eql?(@task.user_perform_id)
+    = f.simple_fields_for :estimation do |ff|
+      = ff.input :end_time, as: :datetime_picker, input_html: {data: {date_options: {defaultDate: Date.today.strftime("%Y/%m/%d")}}}
   br
   = f.button :submit, :class => 'btn-primary'
   '

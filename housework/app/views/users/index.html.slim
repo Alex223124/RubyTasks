@@ -15,10 +15,5 @@ h1= t(:users)
         tr
           td = user.name
           td = link_to t(:show), user_path(user)
-          - unless current_user.parents.exists?(user)
+          - unless current_user.parents.exists?(user) || current_user.children.exists?(user) || current_user.eql?(user)
             td = link_to t(:add), add_user_path(user), method: "post"
-          - unless current_user.children.exists?(user)
-            td = link_to t(:add), add_user_path(user), method: "post"
-          - unless current_user == user
-            td = link_to t(:add), add_user_path(user), method: "post"
-

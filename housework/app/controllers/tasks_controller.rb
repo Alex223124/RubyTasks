@@ -1,11 +1,9 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy]
+  before_action :set_task, only: [:show, :edit, :update, :destroy, :estimation_confirmed, :estimation_rejected]
 
   def index
-    @category = Category.new
-    @categories = Category.all
     @tasks = Task.where(user_id: current_user.id).to_a
-    @tasks + Task.where(user_perform_id: current_user.id).to_a
+    @tasks += Task.where(user_perform_id: current_user.id).to_a
     @names = {}
     User.all.each { |user| @names[user.id] = user.name }
   end
@@ -31,7 +29,19 @@ class TasksController < ApplicationController
   end
 
   def update
+    unless params[:task][:estimation].nil?
+      begin
+        Date.parse(params[:task][:estimation][:end_time])
+        @task.estimation = Estimation.new(:end_time => Date.parse(params[:task][:estimation][:end_time]))
+      rescue ArgumentError
+        current_user.errors.add(:birthday, 'is an invalid estimation')
+        current_user.birthday = nil
+        render :action => 'show' and return
+      end
+    end
+
     if @task.update(task_params)
+      @task.wait!
       redirect_to tasks_url, notice: 'Task was successfully updated'
     else
       render 'edit'
@@ -43,9 +53,14 @@ class TasksController < ApplicationController
     redirect_to tasks_url, notice: 'Task was successfully destroyed.'
   end
 
-  def choose_category
-    @category = Category.new(category_params)
+  def estimation_confirmed
+    @task.run!
+    redirect_to tasks_url, notice: 'Estimation confirmed'
+  end
 
+  def estimation_rejected
+    @task.sleep!
+    redirect_to tasks_url, notice: 'Estimation rejected'
   end
 
   private
@@ -57,7 +72,4 @@ class TasksController < ApplicationController
       params.require(:task).permit(:title, :description, :user_perform_id)
     end
 
-    def category_params
-      params.require(:category).(:name)
-    end
 end

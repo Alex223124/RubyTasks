@@ -5,7 +5,14 @@ Rails.application.routes.draw do
     get 'search', to: 'search#search'
 
     resources :categories
-    resources :tasks
+
+    resources :tasks do
+      member do
+        put 'confirmed', to: 'tasks#estimation_confirmed'
+        put 'rejected', to: 'tasks#estimation_rejected'
+      end
+    end
+
     resources :users do
       resources :comments
       member do
@@ -13,6 +20,7 @@ Rails.application.routes.draw do
         get 'family', to: 'users#family'
       end
     end
+
   end
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

@@ -1,6 +1,16 @@
+GIT
+  remote: git://github.com/zpaulovics/datetimepicker-rails.git
+  revision: 36d21cec5da7f5b214925804f60e63c61c747023
+  branch: master
+  submodules: true
+  specs:
+    datetimepicker-rails (4.7.16)
+      momentjs-rails (>= 2.9.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
+    aasm (4.8.0)
     actionmailer (4.2.5)
       actionpack (= 4.2.5)
       actionview (= 4.2.5)
@@ -127,6 +137,8 @@ GEM
     mimemagic (0.3.0)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
+    momentjs-rails (2.11.0)
+      railties (>= 3.1)
     multi_json (1.11.2)
     multi_xml (0.5.5)
     multipart-post (2.0.0)
@@ -260,10 +272,12 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  aasm
   ancestry
   byebug
   cancancan
   coffee-rails (~> 4.1.0)
+  datetimepicker-rails!
   devise
   elasticsearch-model
   elasticsearch-rails
@@ -272,6 +286,7 @@ DEPENDENCIES
   jbuilder (~> 2.0)
   jquery-rails
   less-rails
+  momentjs-rails (>= 2.9.0)
   omniauth-facebook
   paperclip (~> 4.3)
   pg (~> 0.15)
