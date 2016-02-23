@@ -25,6 +25,9 @@ ru:
   new_category: "Новая категория"
   choose_category: "Выбрать категорию"
   create_estimation: "Время выполнения"
+  rate_task: "Оцените задание"
+  categories: "Категории"
+  profile: "Мой профиль"
 
   date:
     abbr_day_names:

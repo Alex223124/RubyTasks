@@ -8,8 +8,11 @@ Rails.application.routes.draw do
 
     resources :tasks do
       member do
-        put 'confirmed', to: 'tasks#estimation_confirmed'
-        put 'rejected', to: 'tasks#estimation_rejected'
+        put 'estimation_confirmed', to: 'tasks#estimation_confirmed'
+        put 'estimation_rejected', to: 'tasks#estimation_rejected'
+        put 'finished', to: 'tasks#task_finished'
+        put 'estimation_added', to: 'tasks#estimation_added'
+        put 'add_mark', to: 'tasks#add_mark'
       end
     end
 

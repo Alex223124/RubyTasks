@@ -1,5 +1,3 @@
-p#notice = notice
-
 = link_to t('.back', :default => t("helpers.links.back")), tasks_path, :class => 'btn btn-default'
 '
 = link_to t('.edit', :default => t("helpers.links.edit")), edit_task_path(@task), :class => 'btn btn-default'
@@ -22,25 +20,35 @@ p
   br
   = @task.status
 
+- if @task.sleeping? && current_user.id.eql?(@task.user_perform_id)
+  .col-sm-6
+    = simple_form_for @estimation, url: estimation_added_task_path, method: :put  do |f|
+      = f.input :end_time, as: :datetime_picker,input_html: {data: {date_options: {defaultDate: Date.today.strftime("%Y/%m/%d")}}}
+      = f.button :submit, t(:create_estimation)
+
 - if @task.waiting?
   p
-    strong= t(:estimation) + ':'
+    strong= 'Finish until:'
     br
     = @task.estimation.end_time
 
 - if @task.waiting? && current_user.eql?(@task.user)
   p
-    = link_to 'Agree', confirmed_task_path(@task), method: :put, class: 'btn btn-success'
+    = link_to 'Agree', estimation_confirmed_task_path(@task), method: :put, class: 'btn btn-success'
     '
-    = link_to 'Disagree', rejected_task_path(@task), method: :put, class: 'btn btn-danger'
+    = link_to 'Disagree', estimation_rejected_task_path(@task), method: :put, class: 'btn btn-danger'
 
 - if @task.running?
-  p#countdown1
+  p= 'countdown'
 
-    javascript:
-      var timespan = countdown(new Date(2016, 2, 27));
+- if @task.running? && current_user.id == @task.user_perform_id
+  = link_to 'Finished', finished_task_path(@task), method: :put, class: 'btn btn-primary'
 
-      $(function () {
-        alert(timespan)
-      });
-      //$('#countdown1').countdown( new Date(2017, 2, 26) ).toString();
+- if is_there_mark_for_task?
+  .col-sm-4
+    = simple_form_for @mark, url: add_mark_task_path, method: :put do |f|
+      = f.input :number, collection: 1..5
+      = f.button :submit, t(:rate_task)
+
+- if @task.mark
+  h3= "Mark for this task is #{@task.mark.number} by #{@task.mark.user.name}"

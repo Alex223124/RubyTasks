@@ -1,5 +1,8 @@
 class TasksController < ApplicationController
-  before_action :set_task, only: [:show, :edit, :update, :destroy, :estimation_confirmed, :estimation_rejected]
+  before_action :set_task, only: [
+    :show, :edit, :update, :destroy, :estimation_confirmed, :add_mark,
+    :estimation_rejected, :estimation_added, :task_finished
+  ]
 
   def index
     @tasks = Task.where(user_id: current_user.id).to_a
@@ -13,6 +16,8 @@ class TasksController < ApplicationController
   end
 
   def show
+    @estimation = Estimation.new if @task.sleeping?
+    @mark = Mark.new if @task.finishing?
   end
 
   def edit
@@ -29,19 +34,7 @@ class TasksController < ApplicationController
   end
 
   def update
-    unless params[:task][:estimation].nil?
-      begin
-        Date.parse(params[:task][:estimation][:end_time])
-        @task.estimation = Estimation.new(:end_time => Date.parse(params[:task][:estimation][:end_time]))
-      rescue ArgumentError
-        current_user.errors.add(:birthday, 'is an invalid estimation')
-        current_user.birthday = nil
-        render :action => 'show' and return
-      end
-    end
-
     if @task.update(task_params)
-      @task.wait!
       redirect_to tasks_url, notice: 'Task was successfully updated'
     else
       render 'edit'
@@ -53,14 +46,35 @@ class TasksController < ApplicationController
     redirect_to tasks_url, notice: 'Task was successfully destroyed.'
   end
 
+  def estimation_added
+    @task.estimation = Estimation.new(estimation_params)
+    @task.wait
+    if @task.save
+      redirect_to tasks_url, notice: 'Estimation added.'
+    else
+      render 'edit'
+    end
+  end
+
   def estimation_confirmed
     @task.run!
-    redirect_to tasks_url, notice: 'Estimation confirmed'
+    redirect_to tasks_url, notice: 'Estimation confirmed.'
   end
 
   def estimation_rejected
     @task.sleep!
-    redirect_to tasks_url, notice: 'Estimation rejected'
+    @task.estimation.delete
+    redirect_to tasks_url, notice: 'Estimation rejected.'
+  end
+
+  def task_finished
+    @task.finish!
+    redirect_to tasks_url, notice: 'Task finished.'
+  end
+
+  def add_mark
+    @task.mark = Mark.new(number: params[:mark][:number], user_id: current_user.id)
+    redirect_to task_path, notice: 'Mark added.'
   end
 
   private
@@ -70,6 +84,10 @@ class TasksController < ApplicationController
 
     def task_params
       params.require(:task).permit(:title, :description, :user_perform_id)
+    end
+
+    def estimation_params
+      params.require(:estimation).permit(:end_time)
     end
 
 end
