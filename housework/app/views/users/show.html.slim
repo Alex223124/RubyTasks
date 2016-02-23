@@ -1,5 +1,8 @@
 - model_class = User
 = link_to t('.back', :default => t("helpers.links.back")), users_path, :class => 'btn btn-default'
+'
+- unless current_user.parents.exists?(@user) || current_user.children.exists?(@user) || current_user.eql?(@user)
+  = link_to t(:add), add_user_path(@user), method: "post", :class => 'btn btn-default'
 .page-header
   h1 = t(:profile)
 = image_tag @user.avatar.url(:medium) if @user.avatar.present?

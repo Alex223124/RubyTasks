@@ -11,6 +11,8 @@ class User < ActiveRecord::Base
 
   has_many :tasks
 
+  has_many :marks
+
   has_many :parent_relationships, :foreign_key => "parent_id", :class_name => "Relationship"
   has_many :children, :through => :parent_relationships
 

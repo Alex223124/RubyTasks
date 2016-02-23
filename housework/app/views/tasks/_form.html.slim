@@ -2,9 +2,11 @@
   = f.input :title
   = f.input :description
 
-  = f.select(:user_perform_id) do
-    = options_from_collection_for_select(current_user.parents, :id, :name)
-    = options_from_collection_for_select(current_user.children, :id, :name)
+  - if @task.user_perform_id.nil?
+    = f.select(:user_perform_id) do
+      = options_from_collection_for_select(current_user.parents, :id, :name)
+      = options_from_collection_for_select(current_user.children, :id, :name)
+
   br
   = f.button :submit, :class => 'btn-primary'
   '

@@ -2,7 +2,7 @@
   .well.sidebar-nav
     h3 = t(:menu)
     ul.nav.nav-list
-      /li.nav-header Sidebar
+      li= link_to t(:profile), user_path(current_user)
       li= link_to t(:change_email), edit_user_registration_path
       li= link_to t(:change_profile), edit_user_path(current_user)
       li= link_to t(:categories), categories_path

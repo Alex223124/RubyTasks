@@ -15,11 +15,8 @@ class UsersController < ApplicationController
   end
 
   def update
-    selected_day = params[:user]['birthday(1i)'].to_i
-    selected_month = params[:user]['birthday(2i)'].to_i
-    selected_year = params[:user]['birthday(3i)'].to_i
     begin
-      Date.new(selected_day, selected_month, selected_year)
+      Date.parse(params[:user][:birthday])
     rescue ArgumentError
       current_user.errors.add(:birthday, 'is an invalid date')
       current_user.birthday = nil
