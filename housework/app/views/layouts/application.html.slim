@@ -32,8 +32,8 @@ html lang="en"
               /li= link_to "Link 1", "/path1"
               - if user_signed_in?
                 li= link_to t(:sign_out), destroy_user_session_path, method: 'delete'
-            .pull-right.navbar-search.navbar-form
-               = render 'search/form'
+                .pull-right.navbar-form
+                  = render 'search/form'
 
     .container
       .row

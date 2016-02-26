@@ -1,26 +1,19 @@
-h1 = t(:tasks)
+h4 = t(:sleeping_tasks)
+table.col-lg-12.table-condensed
+  tbody
+    = render(@tasks_sleeping) || 'No tasks'
 
-- if @tasks.empty?
-  p = t(:no_tasks)
-- else
-  table.col-lg-12.table-condensed
-    thead
-      tr
-        th = t(:title)
-        th = t(:user_perform)
-        th = t(:status)
-        th
-        th
-        th
-    tbody
-      - @tasks.each do |task|
-        tr
-          td = task.title
-          td = @names[task.user_perform_id]
-          td = task.status
-          td = link_to t(:show), task_path(task)
-          td = link_to t(:edit), edit_task_path(task)
-          - if task.user.eql?(current_user)
-            td = link_to t(:destroy), task, data: {:confirm => 'Are you sure?'}, :method => :delete
+h4 = t(:waiting_tasks)
+table.col-lg-12.table-condensed
+  tbody
+    = render(@tasks_waiting) || 'No tasks'
 
-= link_to t(:new_task), new_task_path
+h4 = t(:running_tasks)
+table.col-lg-12.table-condensed
+  tbody
+    = render(@tasks_running) || 'No tasks'
+
+h4 = t(:finishing_tasks)
+table.col-lg-12.table-condensed
+  tbody
+    = render(@tasks_finishing) || 'No tasks'

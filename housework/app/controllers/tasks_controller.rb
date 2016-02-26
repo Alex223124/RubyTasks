@@ -4,11 +4,13 @@ class TasksController < ApplicationController
     :estimation_rejected, :estimation_added, :task_finished
   ]
 
+  before_action :names, only: [:index, :show, :tasks_for_perform]
+
   def index
-    @tasks = Task.where(user_id: current_user.id).to_a
-    @tasks += Task.where(user_perform_id: current_user.id).to_a
-    @names = {}
-    User.all.each { |user| @names[user.id] = user.name }
+    @tasks_sleeping = Task.where(user_id: current_user.id, status: :sleeping)
+    @tasks_waiting = Task.where(user_id: current_user.id, status: :waiting)
+    @tasks_running = Task.where(user_id: current_user.id, status: :running)
+    @tasks_finishing = Task.where(user_id: current_user.id, status: :finishing)
   end
 
   def new
@@ -21,6 +23,11 @@ class TasksController < ApplicationController
   end
 
   def edit
+    if can_change_task?
+      render :edit and return
+    end
+
+    redirect_to tasks_url, notice: 'It is not your task.'
   end
 
   def create
@@ -34,16 +41,28 @@ class TasksController < ApplicationController
   end
 
   def update
-    if @task.update(task_params)
-      redirect_to tasks_url, notice: 'Task was successfully updated'
-    else
-      render 'edit'
+    if can_change_task?
+      if @task.update(task_params)
+        redirect_to tasks_url, notice: 'Task was successfully updated' and return
+      else
+        render 'edit' and return
+      end
     end
+
+    redirect_to tasks_url, notice: 'It is not your task.'
   end
 
   def destroy
     @task.destroy
     redirect_to tasks_url, notice: 'Task was successfully destroyed.'
+  end
+
+  def tasks_for_perform
+    @tasks_sleeping = Task.where(user_perform_id: current_user.id, status: :sleeping)
+    @tasks_waiting = Task.where(user_perform_id: current_user.id, status: :waiting)
+    @tasks_running = Task.where(user_perform_id: current_user.id, status: :running)
+    @tasks_finishing = Task.where(user_perform_id: current_user.id, status: :finishing)
+    render 'index'
   end
 
   def estimation_added
@@ -88,6 +107,11 @@ class TasksController < ApplicationController
 
     def estimation_params
       params.require(:estimation).permit(:end_time)
+    end
+
+    def names
+      @names = {}
+      User.all.each { |user| @names[user.id] = user.name }
     end
 
 end

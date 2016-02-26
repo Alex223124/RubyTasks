@@ -1,6 +1,10 @@
 h2 Sign up
-= form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
+= simple_form_for(resource, as: resource_name, url: registration_path(resource_name)) do |f|
   = devise_error_messages!
+  .field
+    = f.label 'Role:'
+    br
+    = f.input :role, collection: ['parent', 'child'], selected: 'Parent', label: false
   .field
     = f.label :email
     br

@@ -39,7 +39,6 @@ gem 'elasticsearch-model'
 gem 'elasticsearch-rails'
 
 #for roles
-gem 'cancancan'
 gem 'rolify'
 
 #for status
