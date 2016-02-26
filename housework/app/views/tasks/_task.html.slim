@@ -1,0 +1,8 @@
+tr
+  td = task.title
+  td = @names[task.user_perform_id]
+  td = task.status
+  td = link_to t(:show), task_path(task)
+  - if task.user.eql?(current_user) || current_user.has_role?(:parent)
+    td = link_to t(:edit), edit_task_path(task)
+    td = link_to t(:destroy), task, data: {:confirm => 'Are you sure?'}, :method => :delete

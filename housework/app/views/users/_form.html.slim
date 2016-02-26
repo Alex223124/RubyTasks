@@ -2,7 +2,7 @@
   = simple_form_for current_user, :html => { :class => "form-horizontal" } do |f|
     = f.input :avatar, as: :file, label: t(:avatar)
     = f.input :name, label: t(:name)
-    = f.input :birthday, as: :date_picker, label: t(:birthday), start_year: Date.today.year - 60, end_year: Date.today.year - 5
+    = f.input :birthday, as: :date_picker, label: t(:birthday), default: Date.today, start_year: Date.today.year - 60, end_year: Date.today.year - 5
     = f.input :locale, label: t(:language), collection: {t(:russian) => :ru, t(:english) => :en}
     = f.button :submit, :class => 'btn-primary'
     '

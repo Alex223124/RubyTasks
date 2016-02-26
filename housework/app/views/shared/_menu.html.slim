@@ -6,5 +6,7 @@
       li= link_to t(:change_email), edit_user_registration_path
       li= link_to t(:change_profile), edit_user_path(current_user)
       li= link_to t(:categories), categories_path
-      li= link_to t(:tasks), tasks_path
+      li= link_to t(:created_tasks), tasks_path
+      li= link_to t(:tasks_for_perform), for_perform_path
+      li= link_to t(:new_task), new_task_path
       li= link_to t(:add_users), users_path

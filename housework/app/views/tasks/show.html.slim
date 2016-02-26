@@ -1,6 +1,7 @@
 = link_to t('.back', :default => t("helpers.links.back")), tasks_path, :class => 'btn btn-default'
 '
-= link_to t('.edit', :default => t("helpers.links.edit")), edit_task_path(@task), :class => 'btn btn-default'
+- if current_user.eql?(@task.user) || current_user.has_role?(:parent)
+  = link_to t('.edit', :default => t("helpers.links.edit")), edit_task_path(@task), :class => 'btn btn-default'
 
 - model_class = Task
 .page-header
@@ -14,6 +15,11 @@ p
   strong= t(:description) + ':'
   br
   = @task.description
+
+p
+  strong= t(:who_will_perform) + ':'
+  br
+  = @names[@task.user_perform_id]
 
 p
   strong= t(:status) + ':'

@@ -1,11 +1,13 @@
 Rails.application.routes.draw do
-  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks" }
+  devise_for :users, :controllers => { :omniauth_callbacks => "omniauth_callbacks",
+                                       registrations: 'user/registrations' }
 
   scope '(:locale)', locale: /en|ru/  do
-    get 'search', to: 'search#search'
+    post 'search', to: 'search#search'
 
     resources :categories
 
+    get 'for_perform', to: 'tasks#tasks_for_perform'
     resources :tasks do
       member do
         put 'estimation_confirmed', to: 'tasks#estimation_confirmed'
