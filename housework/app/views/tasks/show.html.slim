@@ -17,7 +17,7 @@ p
   = @task.description
 
 p
-  strong= t(:who_will_perform) + ':'
+  strong= t(:who_perform) + ':'
   br
   = @names[@task.user_perform_id]
 
@@ -29,32 +29,20 @@ p
 - if @task.sleeping? && current_user.id.eql?(@task.user_perform_id)
   .col-sm-6
     = simple_form_for @estimation, url: estimation_added_task_path, method: :put  do |f|
-      = f.input :end_time, as: :datetime_picker,input_html: {data: {date_options: {defaultDate: Date.today.strftime("%Y/%m/%d")}}}
+      = f.input :end_time, as: :datetime_picker,input_html: {data: {date_options: { defaultDate: Date.today.strftime("%Y/%m/%d") }}}
       = f.button :submit, t(:create_estimation)
 
-- if @task.waiting?
-  p
-    strong= 'Finish until:'
-    br
-    = @task.estimation.end_time
-
-- if @task.waiting? && current_user.eql?(@task.user)
-  p
-    = link_to 'Agree', estimation_confirmed_task_path(@task), method: :put, class: 'btn btn-success'
-    '
-    = link_to 'Disagree', estimation_rejected_task_path(@task), method: :put, class: 'btn btn-danger'
+= render 'task_waiting'
 
 - if @task.running?
-  p= 'countdown'
+  p countdown
 
 - if @task.running? && current_user.id == @task.user_perform_id
-  = link_to 'Finished', finished_task_path(@task), method: :put, class: 'btn btn-primary'
+  p
+    = link_to 'Finished', finished_task_path(@task), method: :put, class: 'btn btn-primary'
+    '
+    = link_to 'Suspend', suspend_task_path(@task), method: :put, class: 'btn btn-warning'
 
-- if is_there_mark_for_task?
-  .col-sm-4
-    = simple_form_for @mark, url: add_mark_task_path, method: :put do |f|
-      = f.input :number, collection: 1..5
-      = f.button :submit, t(:rate_task)
+= render 'task_suspending'
 
-- if @task.mark
-  h3= "Mark for this task is #{@task.mark.number} by #{@task.mark.user.name}"
+= render 'mark'

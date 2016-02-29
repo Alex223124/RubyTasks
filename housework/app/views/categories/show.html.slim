@@ -1,16 +1,19 @@
-p#notice = notice
-
 p
   h3= @category.name
-  h4= t(:tasks)
-p
-  - @category.tasks.each do |task|
-    = task.title
-    '|
-    = link_to t(:show), task_path(task)
-    br
+- if @category.subcategories.empty?
+  p
+    h4= t(:tasks)
 
+    table.col-lg-12.table-condensed
+      tbody
+        p= 'sdfsdsdfd'
+        = render @category.tasks || 'No tasks'
+- else
+  p
+    table.col-lg-12.table-condensed
+      tbody
+        = render @category.subcategories
 
-= link_to 'Edit', edit_category_path(@category)
-'|
-= link_to 'Back', categories_path
+br
+
+= link_to 'Back', categories_path, class: 'btn btn-default'

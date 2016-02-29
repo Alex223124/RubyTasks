@@ -5,17 +5,23 @@ class Task < ActiveRecord::Base
   belongs_to :user
   belongs_to :category
   has_one :estimation
+  has_many :comments, as: :commentable
 
   validates :title, :user_id, presence: true
 
   aasm :column => 'status' do
     state :sleeping, :initial => true
     state :waiting
+    state :suspending
     state :running
     state :finishing
 
     event :run do
-      transitions :from => :waiting, :to => :running
+      transitions :from => [:waiting, :suspending], :to => :running
+    end
+
+    event :suspend do
+      transitions :from => :running, :to => :suspending
     end
 
     event :finish do

@@ -1,6 +1,6 @@
-h1= t(:users)
+h1= t(:family)
 
-- if @users.empty?
+- if @family.empty?
   p = t(:no_users)
 - else
 
@@ -8,12 +8,18 @@ h1= t(:users)
     thead
       tr
         th = t(:name)
-        th
+        th = t(:average_mark)
+        th = t(:unappreciated_tasks)
+        th = t(:overvalued_tasks)
         th
     tbody
-      - @users.each do |user|
+      - @family.each_pair do |user, hash|
         tr
           td = user.name
+          td = hash[:average]
+          td = hash[:unappreciated]
+          td = hash[:overvalued]
           td = link_to t(:show), user_path(user)
-          - unless current_user.parents.exists?(user) || current_user.children.exists?(user) || current_user.eql?(user)
+
+          /- unless is_member_of_family?(user)
             td = link_to t(:add), add_user_path(user), method: "post"

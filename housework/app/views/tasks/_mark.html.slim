@@ -1,0 +1,8 @@
+- if is_there_mark_for_task?
+  .col-sm-4
+    = simple_form_for @mark, url: add_mark_task_path, method: :put do |f|
+      = f.input :number, collection: 1..5
+      = f.button :submit, t(:rate_task)
+
+- if @task.mark
+  h3= "Mark for this task is #{@task.mark.number} by #{@task.mark.user.name}"

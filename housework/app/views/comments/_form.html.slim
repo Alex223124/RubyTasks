@@ -1,6 +1,6 @@
 = simple_form_for [@commentable, @comment] do |f|
   = f.hidden_field :parent_id
   p
-    = f.text_area :text, label: "New comment"
+    = f.input :text, label: "New comment"
   p
-    = f.button :submit, "Post Comment"
+    = f.button :submit

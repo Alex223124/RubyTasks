@@ -4,12 +4,14 @@ class CategoriesController < ApplicationController
   # GET /categories
   # GET /categories.json
   def index
-    @categories = Category.all
+    @categories = Category.where(parent_id: nil)
   end
 
   # GET /categories/1
   # GET /categories/1.json
   def show
+    @names = {}
+    User.all.each { |user| @names[user.id] = user.name }
   end
 
   # GET /categories/new

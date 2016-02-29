@@ -1,7 +1,10 @@
 class TasksController < ApplicationController
+  include Hater::Commentable
+
   before_action :set_task, only: [
-    :show, :edit, :update, :destroy, :estimation_confirmed, :add_mark,
-    :estimation_rejected, :estimation_added, :task_finished
+    :show, :edit, :update, :destroy, :estimation_confirmed, :add_mark, :task_continued,
+    :estimation_rejected, :estimation_added, :task_finished, :task_suspended,
+    :add_extra_time, :agree_with_extra_time, :disagree_with_extra_time
   ]
 
   before_action :names, only: [:index, :show, :tasks_for_perform]
@@ -9,6 +12,7 @@ class TasksController < ApplicationController
   def index
     @tasks_sleeping = Task.where(user_id: current_user.id, status: :sleeping)
     @tasks_waiting = Task.where(user_id: current_user.id, status: :waiting)
+    @tasks_suspending = Task.where(user_id: current_user.id, status: :suspending)
     @tasks_running = Task.where(user_id: current_user.id, status: :running)
     @tasks_finishing = Task.where(user_id: current_user.id, status: :finishing)
   end
@@ -60,6 +64,7 @@ class TasksController < ApplicationController
   def tasks_for_perform
     @tasks_sleeping = Task.where(user_perform_id: current_user.id, status: :sleeping)
     @tasks_waiting = Task.where(user_perform_id: current_user.id, status: :waiting)
+    @tasks_suspending = Task.where(user_perform_id: current_user.id, status: :suspending)
     @tasks_running = Task.where(user_perform_id: current_user.id, status: :running)
     @tasks_finishing = Task.where(user_perform_id: current_user.id, status: :finishing)
     render 'index'
@@ -69,7 +74,7 @@ class TasksController < ApplicationController
     @task.estimation = Estimation.new(estimation_params)
     @task.wait
     if @task.save
-      redirect_to tasks_url, notice: 'Estimation added.'
+      redirect_to task_url, notice: 'Estimation added.'
     else
       render 'edit'
     end
@@ -77,23 +82,52 @@ class TasksController < ApplicationController
 
   def estimation_confirmed
     @task.run!
-    redirect_to tasks_url, notice: 'Estimation confirmed.'
+    redirect_to task_url, notice: 'Estimation confirmed.'
   end
 
   def estimation_rejected
     @task.sleep!
     @task.estimation.delete
-    redirect_to tasks_url, notice: 'Estimation rejected.'
+    redirect_to task_url, notice: 'Estimation rejected.'
   end
 
   def task_finished
-    @task.finish!
-    redirect_to tasks_url, notice: 'Task finished.'
+    @task.finish
+    @task.end_time = Time.now
+    @task.save
+    redirect_to task_url, notice: 'Task finished.'
   end
 
   def add_mark
     @task.mark = Mark.new(number: params[:mark][:number], user_id: current_user.id)
     redirect_to task_path, notice: 'Mark added.'
+  end
+
+  def task_suspended
+    @task.suspend!
+    redirect_to task_path, notice: 'Task suspended.'
+  end
+
+  def task_continued
+    @task.run!
+    redirect_to task_path, notice: 'Task was continued.'
+  end
+
+  def add_extra_time
+    @task.estimation.update_attributes(params.require(:estimation).permit(:extra_time))
+    redirect_to task_path, notice: 'Request added.'
+  end
+
+  def agree_with_extra_time
+    seconds = @task.estimation.extra_time.hour * 3600 + @task.estimation.extra_time.min * 60
+    time = @task.estimation.end_time + seconds
+    @task.estimation.update_attributes(end_time: time, extra_time: nil)
+    redirect_to task_path, notice: 'Extra time was added.'
+  end
+
+  def disagree_with_extra_time
+    @task.estimation.update_attribute(:extra_time, nil)
+    redirect_to task_path, notice: 'Extra time was not added.'
   end
 
   private

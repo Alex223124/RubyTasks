@@ -1,0 +1,11 @@
+- if @task.waiting?
+  p
+    strong= 'Finish until:'
+    br
+    = @task.estimation.end_time
+
+- if @task.waiting? && current_user.eql?(@task.user)
+  p
+    = link_to 'Agree', estimation_confirmed_task_path(@task), method: :put, class: 'btn btn-success'
+    '
+    = link_to 'Disagree', estimation_rejected_task_path(@task), method: :put, class: 'btn btn-danger'
