@@ -1,0 +1,23 @@
+- if @task.suspending? && current_user.id == @task.user_perform_id
+  - if @task.estimation.extra_time.nil?
+    = simple_form_for @task.estimation, url: add_extra_time_task_path, method: :put do |f|
+      = f.input :extra_time, as: :time_picker
+      = f.button :submit, 'Ask extra time', class: 'btn btn-primary'
+  - else
+    h4= "Request on extra time - #{@task.estimation.extra_time.strftime("%H:%M")}"
+
+  h3 Please, leave description of suspending
+  p
+    = render 'comments/form'
+    = nested_comments @task.comments
+
+- if @task.suspending? && current_user.eql?(@task.user)
+  - unless @task.estimation.extra_time.nil?
+    h4= "Request on extra time - #{@task.estimation.extra_time.strftime("%H:%M")}"
+    = link_to 'Agree', agree_with_extra_time_task_path(@task), method: :put, class: 'btn btn-success'
+    '
+    = link_to 'Disagree', disagree_with_extra_time_task_path(@task), method: :put, class: 'btn btn-danger'
+  - else
+    = link_to 'Continue', continued_task_path(@task), method: :put, class: 'btn btn-primary'
+
+  = nested_comments @task.comments
