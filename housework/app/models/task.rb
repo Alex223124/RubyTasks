@@ -1,5 +1,6 @@
 class Task < ActiveRecord::Base
   include AASM
+  acts_as_taggable
 
   has_one :mark
   belongs_to :user

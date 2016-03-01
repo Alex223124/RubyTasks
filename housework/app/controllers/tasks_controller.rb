@@ -1,5 +1,6 @@
 class TasksController < ApplicationController
   include Hater::Commentable
+  include TasksHelper
 
   before_action :set_task, only: [
     :show, :edit, :update, :destroy, :estimation_confirmed, :add_mark, :task_continued,
@@ -130,13 +131,21 @@ class TasksController < ApplicationController
     redirect_to task_path, notice: 'Extra time was not added.'
   end
 
+  def tasks_by_tag
+    if params[:tag]
+      @tasks = Task.tagged_with(params[:tag])
+    else
+      redirect_to tasks_url, notice: "There is no tasks with tag #{params[:tag]}"
+    end
+  end
+
   private
     def set_task
       @task = Task.find(params[:id])
     end
 
     def task_params
-      params.require(:task).permit(:title, :description, :user_perform_id)
+      params.require(:task).permit(:title, :description, :user_perform_id, :tag_list)
     end
 
     def estimation_params
