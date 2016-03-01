@@ -20,6 +20,3 @@ h1= t(:family)
           td = hash[:unappreciated]
           td = hash[:overvalued]
           td = link_to t(:show), user_path(user)
-
-          /- unless is_member_of_family?(user)
-            td = link_to t(:add), add_user_path(user), method: "post"

@@ -4,6 +4,7 @@ Rails.application.routes.draw do
 
   scope '(:locale)', locale: /en|ru/  do
     post 'search', to: 'search#search'
+    get 'tags/:tag', to: 'tasks#tasks_by_tag', as: :tag
 
     resources :categories
 
