@@ -35,8 +35,6 @@ class UsersController < ApplicationController
       @family[user] = { average: average_mark, unappreciated: unappreciated_tasks, overvalued: overvalued_tasks }
     end
 
-
-
   end
 
   def edit
@@ -85,6 +83,7 @@ class UsersController < ApplicationController
     end
 
     def user_params
-      params.require(:user).permit(:name, :birthday, :avatar, :locale)
+      params.require(:user).permit(:name, :birthday, :avatar, :locale,
+                                   privacy: [:avatar, :name, :birthday, :comments])
     end
 end

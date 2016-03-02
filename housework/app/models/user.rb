@@ -4,6 +4,8 @@ class User < ActiveRecord::Base
   rolify
   include Elasticsearch::Model
 
+  serialize :privacy, Hash
+
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable,
          :registerable, :confirmable,

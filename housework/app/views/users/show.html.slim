@@ -5,18 +5,23 @@
   = link_to t(:add), add_user_path(@user), method: "post", :class => 'btn btn-default'
 .page-header
   h1 = t(:profile)
-= image_tag @user.avatar.url(:medium) if @user.avatar.present?
-p
-  strong= t(:name) + ':'
-  br
-  = @user.name
-p
-  strong= t(:birthday) + ':'
-  br
-  = @user.birthday
 
-h3 = t(:comments)
+- if private?(@user, :avatar)
+  = image_tag @user.avatar.url(:medium) if @user.avatar.present?
 
-= render 'comments/form'
+- if private?(@user, :name)
+  p
+    strong= t(:name) + ':'
+    br
+    = @user.name
 
-= nested_comments @user.comments
+- if private?(@user, :birthday)
+  p
+    strong= t(:birthday) + ':'
+    br
+    = @user.birthday
+
+- if private?(@user, :comments)
+  h3 = t(:comments)
+  = render 'comments/form'
+  = nested_comments @user.comments
