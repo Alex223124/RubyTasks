@@ -19,4 +19,3 @@
 //= require moment/ru
 //= require bootstrap-datetimepicker
 //= require pickers
-//= require countdown

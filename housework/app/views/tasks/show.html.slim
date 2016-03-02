@@ -35,7 +35,14 @@ p
 = render 'task_waiting'
 
 - if @task.running?
-  p countdown
+#getting-started
+javascript:
+  $("#getting-started")
+  .countdown("#{@task.estimation.end_time}", function(event) {
+    $(this).text(
+      event.strftime('%D days %H:%M:%S')
+    );
+  });
 
 - if @task.running? && current_user.id == @task.user_perform_id
   p

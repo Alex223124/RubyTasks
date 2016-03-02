@@ -81,6 +81,3 @@ class User < ActiveRecord::Base
     return search_by_name_db(params)
   end
 end
-
-#User.__elasticsearch__.create_index! force: true
-#User.import
