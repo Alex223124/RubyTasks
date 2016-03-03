@@ -47,6 +47,7 @@ ru:
   unappreciated_tasks: "Недооцененных задач"
   overvalued_tasks: "Переоцененных задач"
   no_marks: "Нет оценок"
+  categories: "Категории"
 
   date:
     abbr_day_names:

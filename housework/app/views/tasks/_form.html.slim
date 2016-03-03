@@ -8,7 +8,7 @@
       = options_from_collection_for_select(current_user.children, :id, :name)
 
   p
-  = f.select(:category) do
+  = f.select(:category_id) do
     = options_from_collection_for_select(@categories, :id, :name)
 
   = f.input :tag_list, as: :text

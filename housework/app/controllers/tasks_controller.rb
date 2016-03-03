@@ -147,7 +147,7 @@ class TasksController < ApplicationController
     end
 
     def task_params
-      params.require(:task).permit(:title, :description, :user_perform_id, :tag_list)
+      params.require(:task).permit(:title, :description, :user_perform_id, :tag_list, :category_id)
     end
 
     def estimation_params
