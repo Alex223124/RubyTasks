@@ -2,12 +2,14 @@ p
   h3= @category.name
 - if @category.subcategories.empty?
   p
-    h4= t(:tasks)
-
     table.col-lg-12.table-condensed
       tbody
-        p= 'sdfsdsdfd'
-        = render @category.tasks || 'No tasks'
+        - if @category.tasks.empty?
+          p= t(:no_tasks)
+        - else
+          tr
+            - @category.tasks.each do |task|
+              td= task.title
 - else
   p
     table.col-lg-12.table-condensed

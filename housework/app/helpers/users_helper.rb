@@ -12,4 +12,18 @@ module UsersHelper
   def is_overvalued?(task)
     task.end_time - task.estimation.end_time < ONE_DAY
   end
+
+  def to_bool(str)
+    if str == "true"
+      true
+    else
+      false
+    end
+
+  end
+
+  def private?(user, attr)
+    to_bool(user.privacy[attr]) || current_user.eql?(user)
+  end
+
 end

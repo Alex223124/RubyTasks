@@ -1,3 +1,3 @@
 = simple_form_for :q, url: search_path, method: :post do |f|
-  = f.input :q,  placeholder: "Enter name", label: false
-  = f.button :submit, "Search"
+  = f.input :q,  placeholder: t(:enter_name), label: false
+  = f.button :submit, t(:search)

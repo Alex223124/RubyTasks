@@ -1,8 +1,22 @@
-.comment-body
-  h4.comment-heading= @names[comment.author_id]
-  i= comment.created_at.strftime('%b %d, %Y at %H:%M')
-  p= simple_format comment.text
-  .actions
-    = link_to "Reply", new_polymorphic_path([@commentable, Comment.new], :parent_id => comment)
-  .col-md-offset-1
-    = nested_comments(comment.children, 1)
+.col-md-2.col-sm-2.hidden-xs
+  figure.thumbnail
+    img.img-responsive src=comment.user.avatar.url(:thumb)
+    figcaption.text-center
+      = comment.user.name
+.col-md-10.col-sm-10
+  .panel.panel-default.arrow.left
+    .panel-body
+      header.text-left
+        .comment-user
+          i.fa.fa-user
+            = comment.user.name
+        time.comment-date
+          i.fa.fa-clock-o
+            = comment.created_at.strftime('%b %d, %Y at %H:%M')
+      .comment-post
+        p
+          = simple_format comment.text
+      p.text-right
+        = link_to t(:reply), new_polymorphic_path([@commentable, Comment.new], :parent_id => comment), class: "btn btn-default btn-sm"
+.col-md-offset-1
+  = nested_comments(comment.children, 1)

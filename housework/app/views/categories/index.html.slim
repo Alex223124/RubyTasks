@@ -1,13 +1,13 @@
-h1= t(:Categories)
+h1= t(:categories)
 
 table.col-lg-12.table-condensed
   thead
     tr
-      th Name
+      th= t(:name)
       th
 
   tbody
     - @categories.each do |category|
       tr
         td = category.name
-        td = link_to 'Show', category
+        td = link_to t(:show), category

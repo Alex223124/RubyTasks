@@ -1,0 +1,16 @@
+- if @task.running?
+  h4= t(:left_time)
+  #getting-started
+  javascript:
+    $("#getting-started")
+            .countdown("#{@task.estimation.end_time}", function(event) {
+              $(this).text(
+                      event.strftime('%D days %H:%M:%S')
+              );
+            });
+
+- if @task.running? && current_user.id == @task.user_perform_id
+  p
+    = link_to 'Finished', finished_task_path(@task), method: :put, class: 'btn btn-primary'
+    '
+    = link_to 'Suspend', suspend_task_path(@task), method: :put, class: 'btn btn-warning'
