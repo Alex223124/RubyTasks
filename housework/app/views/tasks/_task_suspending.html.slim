@@ -20,4 +20,5 @@
   - else
     = link_to 'Continue', continued_task_path(@task), method: :put, class: 'btn btn-primary'
 
+  h3 = t(:comments)
   = nested_comments @task.comments

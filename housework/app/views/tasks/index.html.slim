@@ -1,19 +1,15 @@
-h4 = t(:sleeping_tasks)
-table.col-lg-12.table-condensed
+table.table-condensed.col-lg-12
+  thead
+    tr
+      th= t(:sleeping_tasks)
+      th= t(:waiting_tasks)
+      th= t(:suspending_tasks)
+      th= t(:running_tasks)
+      th= t(:finishing_tasks)
   tbody
-    = render(@tasks_sleeping) || 'No tasks'
-
-h4 = t(:waiting_tasks)
-table.col-lg-12.table-condensed
-  tbody
-    = render(@tasks_waiting) || 'No tasks'
-
-h4 = t(:running_tasks)
-table.col-lg-12.table-condensed
-  tbody
-    = render(@tasks_running) || 'No tasks'
-
-h4 = t(:finishing_tasks)
-table.col-lg-12.table-condensed
-  tbody
-    = render(@tasks_finishing) || 'No tasks'
+    tr
+      td= render(@tasks_sleeping) || t(:no_tasks)
+      td= render(@tasks_waiting) || t(:no_tasks)
+      td= render(@tasks_suspending) || t(:no_tasks)
+      td= render(@tasks_running) || t(:no_tasks)
+      td= render(@tasks_finishing) || t(:no_tasks)

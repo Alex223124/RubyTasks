@@ -22,6 +22,8 @@
     = @user.birthday
 
 - if private?(@user, :comments)
-  h3 = t(:comments)
-  = render 'comments/form'
-  = nested_comments @user.comments
+  .container.col-lg-12#comments-line
+    h3 = t(:comments)
+    .comment-list
+      = render 'comments/form'
+    = nested_comments @user.comments

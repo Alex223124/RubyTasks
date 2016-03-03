@@ -26,11 +26,11 @@ ActiveRecord::Schema.define(version: 20160302134117) do
   create_table "comments", force: :cascade do |t|
     t.integer  "commentable_id"
     t.string   "commentable_type"
-    t.integer  "author_id"
     t.text     "text"
     t.datetime "created_at",       null: false
     t.datetime "updated_at",       null: false
     t.string   "ancestry"
+    t.integer  "author_id"
   end
 
   add_index "comments", ["ancestry"], name: "index_comments_on_ancestry", using: :btree

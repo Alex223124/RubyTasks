@@ -7,6 +7,10 @@
 .page-header
   h1=t '.title', :default => model_class.model_name.human.titleize
 
+#tag_cloud
+  - tag_cloud Task.tag_counts, %w[s m l] do |tag, css_class|
+    = link_to tag.name, tag_path(tag.name), class: css_class
+
 p
   strong= t(:title) + ':'
   br
@@ -34,26 +38,8 @@ p
 
 = render 'task_waiting'
 
-- if @task.running?
-#getting-started
-javascript:
-  $("#getting-started")
-  .countdown("#{@task.estimation.end_time}", function(event) {
-    $(this).text(
-      event.strftime('%D days %H:%M:%S')
-    );
-  });
-
-- if @task.running? && current_user.id == @task.user_perform_id
-  p
-    = link_to 'Finished', finished_task_path(@task), method: :put, class: 'btn btn-primary'
-    '
-    = link_to 'Suspend', suspend_task_path(@task), method: :put, class: 'btn btn-warning'
+= render 'task_running'
 
 = render 'task_suspending'
 
 = render 'mark'
-
-#tag_cloud
-  - tag_cloud Task.tag_counts, %w[s m l] do |tag, css_class|
-    = link_to tag.name, tag_path(tag.name), class: css_class

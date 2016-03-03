@@ -8,6 +8,8 @@ class TasksController < ApplicationController
     :add_extra_time, :agree_with_extra_time, :disagree_with_extra_time
   ]
 
+  before_action :categories, only: [:new, :create, :update, :edit]
+
   before_action :names, only: [:index, :show, :tasks_for_perform]
 
   def index
@@ -155,6 +157,10 @@ class TasksController < ApplicationController
     def names
       @names = {}
       User.all.each { |user| @names[user.id] = user.name }
+    end
+
+    def categories
+      @categories = Category.where(parent_id: nil)
     end
 
 end

@@ -2,8 +2,7 @@ class UsersController < ApplicationController
   include Hater::Commentable
   include UsersHelper
 
-  before_action :set_user_edit, only: :edit
-  before_action :set_user_show, only: :show
+  before_action :set_user, only: [:edit, :show]
 
   def index
     users = current_user.parents
@@ -13,9 +12,9 @@ class UsersController < ApplicationController
       tasks = Task.where(user_perform_id: user.id, status: :finishing)
 
       if tasks.length == 0
-        average_mark = 'no marks'
-        unappreciated_tasks = 'no tasks'
-        overvalued_tasks = 'no tasks'
+        average_mark = t(:no_marks)
+        unappreciated_tasks = t(:no_tasks)
+        overvalued_tasks = t(:no_tasks)
       else
         marks = 0
         count_of_unappreciated_tasks = 0
@@ -72,14 +71,8 @@ class UsersController < ApplicationController
   end
 
   private
-    def set_user_edit
-      @user = current_user
-    end
-
-    def set_user_show
+    def set_user
       @user = User.find(params[:id])
-      @names = {}
-      User.all.each { |user| @names[user.id] = user.name }
     end
 
     def user_params
