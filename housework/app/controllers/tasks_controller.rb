@@ -2,6 +2,8 @@ class TasksController < ApplicationController
   include Hater::Commentable
   include TasksHelper
 
+  respond_to :html, :js
+
   before_action :set_task, only: [
     :show, :edit, :update, :destroy, :estimation_confirmed, :add_mark, :task_continued,
     :estimation_rejected, :estimation_added, :task_finished, :task_suspended,
@@ -18,6 +20,11 @@ class TasksController < ApplicationController
     @tasks_suspending = Task.where(user_id: current_user.id, status: :suspending)
     @tasks_running = Task.where(user_id: current_user.id, status: :running)
     @tasks_finishing = Task.where(user_id: current_user.id, status: :finishing)
+
+    respond_to do |format|
+      format.html
+      format.json
+    end
   end
 
   def new
