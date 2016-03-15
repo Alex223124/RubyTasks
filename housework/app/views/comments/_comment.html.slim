@@ -5,6 +5,10 @@
       = comment.user.name
 .col-md-10.col-sm-10
   .panel.panel-default.arrow.left
+    - if current_user.eql?(comment.user)
+      .panel-heading.right
+        /=link_to url_for([current_user, comment]), data: { :confirm => 'Are you sure?' }, method: :delete
+        i.glyphicon.glyphicon-remove onclick="removeComment"
     .panel-body
       header.text-left
         .comment-user
@@ -20,3 +24,8 @@
         = link_to t(:reply), new_polymorphic_path([@commentable, Comment.new], :parent_id => comment), class: "btn btn-default btn-sm"
 .col-md-offset-1
   = nested_comments(comment.children, 1)
+
+/javascript:
+
+  document.getElementById("#{ comment.id.to_s }").addEventListener("click", function() {
+    removeComment("#{ comment.id }");
