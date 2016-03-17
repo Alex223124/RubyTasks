@@ -22,8 +22,8 @@
     = @user.birthday
 
 - if private?(@user, :comments)
-  .container.col-lg-12#comments-line
+  .container.col-lg-12
     h3 = t(:comments)
-    .comment-list
-      = render 'comments/form'
-    = nested_comments @user.comments
+    = render 'comments/form'
+    #comments-list
+      = nested_comments @user.comments.order(created_at: :desc)

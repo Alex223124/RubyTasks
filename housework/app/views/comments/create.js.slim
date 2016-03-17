@@ -1,0 +1,7 @@
+|
+  $('textarea').val('');
+  var comments = $('#comments-list');
+  comments.prepend('
+= j render (@user.comments.last)
+|
+  ');
