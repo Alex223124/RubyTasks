@@ -1,14 +1,18 @@
-function removeComment(user_id, comment_id){
-    /*$.ajax({
-        type: "DELETE",
-        url: '/users' + user_id + '/comments/' + comment_id,
-        dataType: 'json'
-    }).success(function(){
-        $('#' + comment_id.toString()).remove();
-    });*/
-    alert('adasfasfas')
+function removeComment(btns) {
+    $.each(btns, function(index, value) {
+        $(value).on('click', function() {
+            var comment = $(this).parent().parent().parent().parent();
+            $.ajax({
+                method: "DELETE",
+                url: '/users/' + '8' + '/comments/' + comment.data('comment'),
+                dataType: 'json'
+            }).success(function(){
+                comment.remove();
+            });
+        })
+    });
 }
 
 $( document ).ready(function() {
-    removeComment()
+    removeComment($('.delete-btn'));
 });
