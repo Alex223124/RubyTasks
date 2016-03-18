@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     post 'search', to: 'search#search'
     get 'tags/:tag', to: 'tasks#tasks_by_tag', as: :tag
 
+    delete 'comments/:id', to: 'comments#destroy'
+
     resources :categories
 
     get 'for_perform', to: 'tasks#tasks_for_perform'

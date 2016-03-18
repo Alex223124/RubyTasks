@@ -4,7 +4,7 @@ function removeComment(btns) {
             var comment = $(this).parent().parent().parent().parent();
             $.ajax({
                 method: "DELETE",
-                url: '/users/' + '8' + '/comments/' + comment.data('comment'),
+                url: '/comments/' + comment.data('comment'),
                 dataType: 'json'
             }).success(function(){
                 comment.remove();
